@@ -2,6 +2,8 @@ package edu.etime.xsjsc.dao;
 
 import edu.etime.xsjsc.pojo.Orders;
 
+import java.util.List;
+
 public interface OrdersMapper {
     int deleteByPrimaryKey(String id);
 
@@ -14,4 +16,6 @@ public interface OrdersMapper {
     int updateByPrimaryKeySelective(Orders record);
 
     int updateByPrimaryKey(Orders record);
+
+    List<Orders> selectOrdersList(Orders record);
 }
