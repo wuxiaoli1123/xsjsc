@@ -38,6 +38,12 @@ public interface ProductService {
 	 */
 	List<ProductImgs> selectImgById(String pid);
 	/**
+	 * 根据商品id修改商品的图片url
+	 * @param p
+	 * @return
+	 */
+	int updateProductImg(Product p);
+	/**
 	 * 增加商品图片
 	 * @param imgs
 	 * @return

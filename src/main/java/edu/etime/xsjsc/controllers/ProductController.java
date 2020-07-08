@@ -1,16 +1,16 @@
-/*
 package edu.etime.xsjsc.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSONObject;
+import edu.etime.xsjsc.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.etime.xsjsc.common.FastDFSClient;
@@ -21,12 +21,12 @@ import edu.etime.xsjsc.pojo.ProductImgs;
 import edu.etime.xsjsc.servcies.interfaces.GoodsTypeService;
 import edu.etime.xsjsc.servcies.interfaces.ProductService;
 
-*/
+
 /**
  * 商品管理控制层
  * @author 张旺
  *
- *//*
+ */
 
 @Controller
 @RequestMapping("/product")
@@ -36,30 +36,31 @@ public class ProductController {
 	private GoodsTypeService typeservice;
 	@Autowired
 	private ProductService service;
-	*/
+
 /**
 	 * 进入到增加页面
 	 * @return
-	 *//*
+	 */
 
 	@RequestMapping("/toadd")
-	public String toadd(Model model){
+	@ResponseBody
+	public List<GoodsType> toadd(){
 		//查询出所有可用的商品类型列表
 		GoodsType type = new GoodsType();
 		type.setState(1);
 		List<GoodsType> typelist = typeservice.selectGoodsTypeList(type);
-		model.addAttribute("typelist", typelist);
-		return "product/add";
+		return typelist;
 	}
-	*/
+
 /**
 	 * 增加商品
 	 * @param p
 	 * @return
-	 *//*
+	 */
 
 	@RequestMapping("/add")
-	public String add(Product p,@RequestParam("file")MultipartFile file,Model model){
+	@ResponseBody
+	public Result add(Product p, @RequestParam("file")MultipartFile file){
 		//1、判断是否有文件存储，如果有，则将文件保存到fastdfs中
 		if(file!=null && !file.isEmpty()){
 			//创建fastdfsclient的实例
@@ -76,72 +77,103 @@ public class ProductController {
 			}
 		}
 		p.setId(UUID.randomUUID().toString());
+
 		//处理typeid
-		String[] str = p.getTypeid().split(",");
-		p.setTypeid(str[0]);
-		p.setTypename(str[1]);
-		int rtn = service.insertProduct(p);
-		if (rtn > 0) {
-			//model.addAttribute("msg", "成功");
-			return "redirect:/product/list";
-		} else {
-			model.addAttribute("msg", "shibai");
+//		String[] str = p.getTypeid().split(",");
+//		p.setTypeid(str[0]);
+//		p.setTypename(str[1]);
+
+		Result result =new Result();
+		//创建对应的图片实例并插入数据库
+		ProductImgs pimgs = new ProductImgs();
+		pimgs.setImgid(UUID.randomUUID().toString());
+		pimgs.setProductid(p.getId());
+		pimgs.setImgurl(p.getFields2());
+		pimgs.setSort(1);
+		int rtn1 = service.insertImg(pimgs);
+
+		//如果插入不成功则返回错误信息，不再把新增产品插入表中
+		if(rtn1 < 0 ){
+			result.setState(false).setMsg("建立图片索引时失败！");
 		}
-		return "redirect:/product/toadd";
+
+		int rtn = service.insertProduct(p);
+
+		if (rtn > 0) {
+			result.setState(true).setMsg("增加商品成功！");
+		} else {
+			result.setState(false).setMsg("增加商品失败！");
+		}
+		return result;
 	}
-	*/
+
 /**
 	 * 查询商品列表
 	 * @param p
 	 * @param model
 	 * @return
-	 *//*
+	 */
 
-	@RequestMapping("/list")
+	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
+	@ResponseBody
 	public String list(Product p,Model model){
 		//1、初始化商品类型下拉列表
 		GoodsType type = new GoodsType();
 		type.setState(1);
 		List<GoodsType> typelist = typeservice.selectGoodsTypeList(type);
-		model.addAttribute("typelist", typelist);
+
 		//2、查询商品列表
 		List<Product> list = service.selectProductList(p);
-		model.addAttribute("list", list);
+
 		//3、文件服务器地址
-		model.addAttribute("fileserver", FileServerAddr.getFileserver());
-		return "product/list";
+		String fileserver = FileServerAddr.getFileserver();
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		map.put("typelist",typelist);
+		map.put("list",list);
+		map.put("fileserver",fileserver);
+
+		String json = JSONObject.toJSONString(map);
+
+		return json;
 	}
-	*/
+
 /**
 	 * 进入到商品图片管理页面的方法
 	 * @return
-	 *//*
+	 */
 
-	@RequestMapping("/imgs/{pid}")
-	public String initImg(@PathVariable("pid")String pid,Model model){
+	@RequestMapping(value="/imgs/",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String initImg(String pid){
 		//1、根据商品id查询出商品的详细信息（显示）
 		Product p = service.selectProductById(pid);
 		//2、查询商品的图片列表
 		List<ProductImgs> list = service.selectImgById(pid);
 		//3、获取图片服务器的地址
 		String fileserver = FileServerAddr.getFileserver();
-		//将上面的内容放入到model中，传递到页面
-		model.addAttribute("list", list);
-		model.addAttribute("p", p);
-		model.addAttribute("fileserver", fileserver);
-		return "product/imgs";
+
+		//将上面的内容放入到map中，转换成json串返回
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		map.put("product",p);
+		map.put("list",list);
+		map.put("fileserver",fileserver);
+
+		String json = JSONObject.toJSONString(map);
+		return json;
 	}
-	*/
+
 /**
 	 * 编辑商品图片
 	 * @param img
 	 * @param file
-	 * @param model
 	 * @return
-	 *//*
+	 */
 
 	@RequestMapping("/updateimg")
-	public String updateimg(ProductImgs img,@RequestParam("file")MultipartFile file,Model model){
+	@ResponseBody
+	public Result updateimg(ProductImgs img, @RequestParam("file")MultipartFile file){
 		//上传图片
 		if(file!=null && !file.isEmpty()){
 			try {
@@ -156,6 +188,21 @@ public class ProductController {
 				e.printStackTrace();
 			}
 		}
+
+		Result result = new Result();
+
+		if (img.getSort()==1) {
+			Product product = new Product();
+			product.setId(img.getProductid());
+			product.setFields2(img.getImgurl());
+
+			int rs = service.updateProductImg(product);
+
+			if (rs < 0) {
+				result.setState(false).setMsg("保存图片失败！");
+				return result;
+			}
+		}
 		int rtn = 0;
 		//增加
 		if(img.getImgid().equals("")){
@@ -166,23 +213,31 @@ public class ProductController {
 			rtn = service.updateImg(img);
 		}
 		if(rtn>0){
-			return "redirect:/product/imgs/"+img.getProductid();
+			result.setState(true).setMsg("保存图片成功！");
 		}else{
-			model.addAttribute("msg", "保存图片失败");
-			return "product/imgs";
+			result.setState(false).setMsg("保存图片失败！");
 		}
+		return result;
 	}
-	*/
+
 /**
 	 * 删除商品图片
-	 * @param imgid
+	 * @param img
 	 * @return
-	 *//*
+	 */
 
-	@RequestMapping("/delimg/{id}/{pid}")
-	public String delimg(@PathVariable("id")String id,@PathVariable("pid")String pid){
-		service.deleteImg(id);
-		return "redirect:/product/imgs/"+pid;
+	@RequestMapping("/delimg")
+	@ResponseBody
+	public Result delimg(ProductImgs img){
+		Result result = new Result();
+
+		int rs = service.deleteImg(id);
+		if (rs > 0) {
+			result.setState(true).setMsg("删除图片成功！");
+		}else{
+			result.setState(false).setMsg("删除图片失败！");
+		}
+		return result;
 	}
 }
-*/
+

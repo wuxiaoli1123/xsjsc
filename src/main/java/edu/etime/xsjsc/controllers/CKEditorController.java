@@ -1,4 +1,4 @@
-/*
+
 package edu.etime.xsjsc.controllers;
 
 import java.io.PrintWriter;
@@ -14,12 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.etime.xsjsc.common.FastDFSClient;
 import edu.etime.xsjsc.common.FileServerAddr;
 
-*/
+
 /**
  * ckeditor上传文件方法
  * @author zw
  *
- *//*
+ */
 
 @Controller
 @RequestMapping("/ckeditor/upload")
@@ -28,7 +28,7 @@ public class CKEditorController {
 	@RequestMapping("/img")
 	public void uploadimg(@RequestParam("upload")MultipartFile file,HttpServletRequest request,
 			HttpServletResponse response){
-		
+
 		try {
 			//上传文件
 			FastDFSClient dfs = new FastDFSClient();
@@ -52,7 +52,7 @@ public class CKEditorController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
-*/
+

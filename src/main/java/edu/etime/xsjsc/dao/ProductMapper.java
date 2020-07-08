@@ -22,5 +22,10 @@ public interface ProductMapper {
      * @return
      */
     List<Product> selectProductList(Product p);
-    
+
+    /**
+     * 修改商品图片的url
+     */
+    int updateImgUrlByPrimaryKey(Product p);
+
 }

@@ -5,14 +5,11 @@ import java.util.UUID;
 
 import edu.etime.xsjsc.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.JstlView;
 
 import edu.etime.xsjsc.pojo.GoodsType;
 import edu.etime.xsjsc.servcies.interfaces.GoodsTypeService;
@@ -59,7 +56,6 @@ public class GoodsTypeController {
 	public List<GoodsType> goodslist() {
 		// 查询
 		List<GoodsType> list = service.selectGoodsTypeList(new GoodsType());
-
 		return list;
 	}
 
@@ -67,14 +63,13 @@ public class GoodsTypeController {
 	 * 初始化修改页面
 	 * 
 	 * @param id
-	 * @param model
 	 * @return
 	 */
 	@RequestMapping("/toedit")
-	public String toedit(String id, Model model) {
+    @ResponseBody
+	public GoodsType toedit(String id) {
 		GoodsType type = service.selectGoodsTypeById(id);
-		model.addAttribute("type", type);
-		return "goodstype/edit";
+		return type;
 	}
 
 	/**
@@ -84,14 +79,16 @@ public class GoodsTypeController {
 	 * @return
 	 */
 	@RequestMapping("/edit")
-	public String edit(GoodsType type,Model model) {
+    @ResponseBody
+	public Result edit(@RequestBody GoodsType type) {
 		int rtn = service.updateGoodsType(type);
+		Result result = new Result();
 		// 处理结果
 		if (rtn > 0) {
-			return "redirect:/goodstype/list";
+            result.setState(true).setMsg("商品类型修改成功！");
 		} else {
-			model.addAttribute("msg", "失败");
+            result.setState(false).setMsg("商品类型修改失败！");
 		}
-		return "goodstype/edit";
+		return result;
 	}
 }

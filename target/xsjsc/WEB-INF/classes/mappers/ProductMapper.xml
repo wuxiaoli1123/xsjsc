@@ -246,4 +246,10 @@
       typename = #{typename,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="updateImgUrlByPrimaryKey" parameterType="edu.etime.xsjsc.pojo.Product" >
+    update product
+    set
+      fields2 = #{fields2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

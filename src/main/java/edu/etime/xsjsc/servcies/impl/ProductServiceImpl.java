@@ -44,6 +44,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public int updateProductImg(Product p) {
+		return mapper.updateImgUrlByPrimaryKey(p);
+	}
+
+	@Override
 	public Product selectProductById(String pid) {
 		return mapper.selectByPrimaryKey(pid);
 	}
