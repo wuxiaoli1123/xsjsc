@@ -52,7 +52,7 @@ public class GoodsTypeController {
 	/**
 	 * 查询商品列表
 	 */
-	@RequestMapping("/list")
+	@RequestMapping("/goodstype")
 	public List<GoodsType> goodslist() {
 		// 查询
 		List<GoodsType> list = service.selectGoodsTypeList(new GoodsType());

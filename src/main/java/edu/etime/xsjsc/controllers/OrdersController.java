@@ -78,7 +78,7 @@ public class OrdersController {
      * @return
      */
     @RequestMapping("/edit")
-    public Result edit(Orders record) {
+    public Result edit(@RequestBody Orders record) {
         int rtn = ordersService.updateByPrimaryKeySelective(record);
         Result result =new Result();
         // 处理结果
