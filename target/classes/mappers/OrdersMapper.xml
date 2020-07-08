@@ -214,4 +214,19 @@
       addrid = #{addrid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <!--支付账单 -->
+  <update id="updateIspay" parameterType="java.lang.String">
+    update orders
+    set ispay = 1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--确认收货 -->
+  <update id="updateRecive" parameterType="java.lang.String">
+    update orders
+    set receive = 1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
 </mapper>

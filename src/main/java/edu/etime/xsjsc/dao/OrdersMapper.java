@@ -18,4 +18,8 @@ public interface OrdersMapper {
     int updateByPrimaryKey(Orders record);
 
     List<Orders> selectOrdersList(Orders record);
+
+    int updateIspay(String id);
+
+    int updateRecive(String id);
 }

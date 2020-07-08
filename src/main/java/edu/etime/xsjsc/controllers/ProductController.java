@@ -222,7 +222,7 @@ public class ProductController {
 
 /**
 	 * 删除商品图片
-	 * @param img
+	 * @param id
 	 * @return
 	 */
 

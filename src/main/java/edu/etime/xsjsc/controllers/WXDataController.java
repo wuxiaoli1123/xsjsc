@@ -3,13 +3,10 @@ package edu.etime.xsjsc.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import edu.etime.xsjsc.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import edu.etime.xsjsc.dto.GoodsTypeProduct;
 import edu.etime.xsjsc.dto.ProductDetailDto;
@@ -23,6 +20,7 @@ import edu.etime.xsjsc.servcies.interfaces.WXDataService;
  *
  */
 @Controller
+@RestController
 @RequestMapping("/wx")
 public class WXDataController {
 
@@ -96,5 +94,42 @@ public class WXDataController {
 		address.setId(UUID.randomUUID().toString());
 		return service.insertCusAddress(address);
 	}
-	
+
+	/**
+	 * 修改收货地址
+	 * @param address
+	 * @return
+	 */
+	@RequestMapping(value="/address/update",method=RequestMethod.POST)
+	@ResponseBody
+	public int updateCusAddress(@RequestBody CusAddress address){
+		return service.updateByPrimaryKeySelective(address);
+	}
+
+
+	@RequestMapping("/ispay")
+	public Result updateIspay(@RequestBody String id){
+		Result result = new Result();
+		int rtn = service.updateIspay(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("订单付款成功！");
+		} else {
+			result.setState(false).setMsg("订单付款失败，请重新操作！");
+		}
+		return result;
+	}
+
+
+	@RequestMapping("/recive")
+	public Result updateRecive(@RequestBody String id){
+		Result result = new Result();
+		int rtn = service.updateRecive(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("收货成功！");
+		} else {
+			result.setState(false).setMsg("收货失败，请重新操作！");
+		}
+		return result;
+	}
+
 }

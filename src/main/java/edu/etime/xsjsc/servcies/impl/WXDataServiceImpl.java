@@ -3,14 +3,10 @@ package edu.etime.xsjsc.servcies.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.etime.xsjsc.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.etime.xsjsc.dao.CusAddressMapper;
-import edu.etime.xsjsc.dao.CustomerMapper;
-import edu.etime.xsjsc.dao.GoodsTypeMapper;
-import edu.etime.xsjsc.dao.ProductImgsMapper;
-import edu.etime.xsjsc.dao.ProductMapper;
 import edu.etime.xsjsc.dto.GoodsTypeProduct;
 import edu.etime.xsjsc.dto.ProductDetailDto;
 import edu.etime.xsjsc.pojo.CusAddress;
@@ -38,6 +34,9 @@ public class WXDataServiceImpl implements WXDataService {
 	private ProductImgsMapper imgmapper;
 	@Autowired
 	private CusAddressMapper addrmapper;
+	@Autowired
+	private OrdersMapper ordersMapper;
+
 	@Override
 	public List<Product> selectProductList(Product p) {
 		return pmapper.selectProductList(p);
@@ -84,6 +83,7 @@ public class WXDataServiceImpl implements WXDataService {
 		dto.setImgs(imgs);
 		return dto;
 	}
+
 	@Override
 	public List<CusAddress> selectCusAddress(CusAddress address) {
 		return addrmapper.selectAddress(address);
@@ -102,5 +102,27 @@ public class WXDataServiceImpl implements WXDataService {
 		//3、新增收货地址
 		return addrmapper.insert(address);
 	}
+
+	@Override
+	public int updateByPrimaryKeySelective(CusAddress record) {
+		if(record.getIsdefault()==1){
+			CusAddress addr = new CusAddress();
+			addr.setOpenid(record.getOpenid());
+			addr.setIsdefault(0);
+			addrmapper.updateByOpenid(addr);
+		}
+		return addrmapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int updateIspay(String id) {
+		return ordersMapper.updateIspay(id);
+	}
+
+	@Override
+	public int updateRecive(String id) {
+		return ordersMapper.updateRecive(id);
+	}
+
 
 }
