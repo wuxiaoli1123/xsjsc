@@ -4,7 +4,6 @@ import edu.etime.xsjsc.pojo.Orders;
 import edu.etime.xsjsc.pojo.Result;
 import edu.etime.xsjsc.servcies.interfaces.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +23,7 @@ import java.util.UUID;
 public class OrdersController {
     @Autowired
     private OrdersService ordersService;
+
     /**
      * 添加订单
      *
@@ -67,10 +67,10 @@ public class OrdersController {
      * @return
      */
     @RequestMapping("/toedit")
-    public String toedit(String id, Model model){
+    @ResponseBody
+    public Orders toedit(String id){
         Orders record = ordersService.selectByPrimaryKey(id);
-        model.addAttribute("id", id);
-        return "orders/edit";
+        return record;
     }
     /**
      * 修改订单
@@ -78,15 +78,16 @@ public class OrdersController {
      * @return
      */
     @RequestMapping("/edit")
-    public String edit(Orders record,Model model) {
+    public Result edit(Orders record) {
         int rtn = ordersService.updateByPrimaryKeySelective(record);
+        Result result =new Result();
         // 处理结果
         if (rtn > 0) {
-            return "redirect:/orders/list";
+            result.setState(true).setMsg("订单修改成功！");
         } else {
-            model.addAttribute("msg", "失败");
+            result.setState(false).setMsg("订单修改失败！");
         }
-        return "orders/edit";
+        return result;
     }
 
     /**

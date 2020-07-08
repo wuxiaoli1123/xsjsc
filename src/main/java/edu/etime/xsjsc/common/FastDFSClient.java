@@ -1,4 +1,4 @@
-/*
+
 package edu.etime.xsjsc.common;
 
 import java.io.IOException;
@@ -8,13 +8,13 @@ import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 
-*/
+
 /**
  * FastDFS的工具类
  * 
  * @author zw
  *
- *//*
+ */
 
 public class FastDFSClient {
 	
@@ -23,12 +23,12 @@ public class FastDFSClient {
 	private StorageServer storageServer = null;
 	private StorageClient1 storageClient = null;
 
-	*/
+
 /**
 	 * 调用本类时，需要在resources中增加fdfs_client.properties配置文件
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 
 	public FastDFSClient() throws Exception {
 		String conf = this.getClass().getResource("/fdfs_client.properties").getPath();
@@ -40,12 +40,12 @@ public class FastDFSClient {
 		}
 		ClientGlobal.init(conf);
 		trackerClient = new TrackerClient();
-		trackerServer = trackerClient.getConnection();
+		trackerServer = trackerClient.getTrackerServer();
 		storageServer = null;
 		storageClient = new StorageClient1(trackerServer, storageServer);
 	}
 
-	*/
+
 /**
 	 * 上传文件方法
 	 * <p>
@@ -63,7 +63,7 @@ public class FastDFSClient {
 	 *            文件扩展信息
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 
 	public String uploadFile(String fileName, String extName, NameValuePair[] metas) {
 		String result = null;
@@ -77,20 +77,20 @@ public class FastDFSClient {
 		return result;
 	}
 
-	*/
+
 /**
 	 * 上传文件,传fileName
 	 * 
 	 * @param fileName
 	 *            文件的磁盘路径名称 如：D:/image/aaa.jpg
 	 * @return null为失败
-	 *//*
+	 */
 
 	public String uploadFile(String fileName) {
 		return uploadFile(fileName, null, null);
 	}
 
-	*/
+
 /**
 	 *
 	 * @param fileName
@@ -98,13 +98,13 @@ public class FastDFSClient {
 	 * @param extName
 	 *            文件的扩展名 如 txt jpg等
 	 * @return null为失败
-	 *//*
+	 */
 
 	public String uploadFile(String fileName, String extName) {
 		return uploadFile(fileName, extName, null);
 	}
 
-	*/
+
 /**
 	 * 上传文件方法
 	 * <p>
@@ -122,7 +122,7 @@ public class FastDFSClient {
 	 *            文件扩展信息
 	 * @return
 	 * @throws Exception
-	 *//*
+	 */
 
 	public String uploadFile(byte[] fileContent, String extName, NameValuePair[] metas) {
 		String result = null;
@@ -136,7 +136,7 @@ public class FastDFSClient {
 		return result;
 	}
 
-	*/
+
 /**
 	 * 上传文件
 	 * 
@@ -144,13 +144,13 @@ public class FastDFSClient {
 	 *            文件的字节数组
 	 * @return null为失败
 	 * @throws Exception
-	 *//*
+	 */
 
 	public String uploadFile(byte[] fileContent) throws Exception {
 		return uploadFile(fileContent, null, null);
 	}
 
-	*/
+
 /**
 	 * 上传文件
 	 * 
@@ -159,10 +159,10 @@ public class FastDFSClient {
 	 * @param extName
 	 *            文件的扩展名 如 txt jpg png 等
 	 * @return null为失败
-	 *//*
+	 */
 
 	public String uploadFile(byte[] fileContent, String extName) {
 		return uploadFile(fileContent, extName, null);
 	}
 }
-*/
+

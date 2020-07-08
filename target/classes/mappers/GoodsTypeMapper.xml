@@ -24,7 +24,7 @@
     	</if>
     </where>
   </select>
-  
+
 
   <insert id="insert" parameterType="edu.etime.xsjsc.pojo.GoodsType" >
     insert into goodstype (id, name, state

@@ -18,6 +18,17 @@
     <result column="addrid" property="addrid" jdbcType="VARCHAR" />
   </resultMap>
 
+  <select id="selectOrdersList" resultMap="BaseResultMap" parameterType="edu.etime.xsjsc.pojo.Orders" >
+    select *
+    from orders
+    <where>
+      <if test="state!=null and state!=-1">
+        and state=#{state}
+      </if>
+    </where>
+  </select>
+
+  <!--根据账单号查询账单 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
       id, openid, productid, productname, title, price, number, totle, ispay, invoice,
@@ -25,10 +36,14 @@
     from orders
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <!--根据账单号删除账单 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from orders
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
+  <!--添加账单 -->
   <insert id="insert" parameterType="edu.etime.xsjsc.pojo.Orders" >
     insert into orders (id, openid, productid, 
       productname, title, price, 
@@ -41,6 +56,8 @@
       #{invoice,jdbcType=VARCHAR}, #{receive,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
       #{address,jdbcType=VARCHAR}, #{addrid,jdbcType=VARCHAR})
   </insert>
+
+  <!--添加账单 -->
   <insert id="insertSelective" parameterType="edu.etime.xsjsc.pojo.Orders" >
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -132,6 +149,8 @@
       </if>
     </trim>
   </insert>
+
+  <!--修改账单 -->
   <update id="updateByPrimaryKeySelective" parameterType="edu.etime.xsjsc.pojo.Orders" >
     update orders
     <set >
@@ -177,6 +196,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="edu.etime.xsjsc.pojo.Orders" >
     update orders
     set openid = #{openid,jdbcType=VARCHAR},
