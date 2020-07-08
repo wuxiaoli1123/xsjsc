@@ -42,9 +42,9 @@ public class ProductController {
 	 * @return
 	 */
 
-	@RequestMapping("/toadd")
+	@RequestMapping("/goodstypes")
 	@ResponseBody
-	public List<GoodsType> toadd(){
+	public List<GoodsType> goodstypes(){
 		//查询出所有可用的商品类型列表
 		GoodsType type = new GoodsType();
 		type.setState(1);

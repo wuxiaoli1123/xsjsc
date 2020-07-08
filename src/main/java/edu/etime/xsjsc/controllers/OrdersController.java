@@ -97,7 +97,6 @@ public class OrdersController {
     public List<Orders> orderslist() {
         // 查询
         List<Orders> list = ordersService.selectOrdersList(new Orders());
-
         return list;
     }
 
