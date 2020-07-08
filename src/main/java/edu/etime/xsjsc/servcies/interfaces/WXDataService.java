@@ -59,4 +59,23 @@ public interface WXDataService {
 	 * @return
 	 */
 	int insertCusAddress(CusAddress address);
+	/**
+	 * 修改收货地址
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKeySelective(CusAddress record);
+
+	/**
+	 * 支付
+	 * @param id
+	 * @return
+	 */
+	int updateIspay(String id);
+	/**
+	 * 收货
+	 * @param id
+	 * @return
+	 */
+	int updateRecive(String id);
 }
