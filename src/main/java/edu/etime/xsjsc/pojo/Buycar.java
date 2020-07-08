@@ -7,6 +7,9 @@ public class Buycar {
 
     private String openid;
 
+    private Integer addnumber;
+
+
     public String getId() {
         return id;
     }
@@ -29,5 +32,13 @@ public class Buycar {
 
     public void setOpenid(String openid) {
         this.openid = openid == null ? null : openid.trim();
+    }
+
+    public Integer getAddnumber() {
+        return addnumber;
+    }
+
+    public void setAddnumber(Integer addnumber) {
+        this.addnumber = addnumber;
     }
 }

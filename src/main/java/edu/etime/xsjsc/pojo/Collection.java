@@ -1,14 +1,18 @@
 package edu.etime.xsjsc.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Collection {
+
     private String id;
 
     private String productid;
 
     private String openid;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date collecttime;
 
     public String getId() {

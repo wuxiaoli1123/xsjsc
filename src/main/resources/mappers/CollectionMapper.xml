@@ -77,4 +77,9 @@
       collecttime = #{collecttime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByOpenid" parameterType="java.lang.String" resultType="edu.etime.xsjsc.pojo.Collection">
+    select * from collection where openid = #{openid,,jdbcType=VARCHAR}
+  </select>
+
 </mapper>
