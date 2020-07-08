@@ -222,13 +222,13 @@ public class ProductController {
 
 /**
 	 * 删除商品图片
-	 * @param img
+	 * @param id
 	 * @return
 	 */
 
 	@RequestMapping("/delimg")
 	@ResponseBody
-	public Result delimg(ProductImgs img){
+	public Result delimg(String id){
 		Result result = new Result();
 
 		int rs = service.deleteImg(id);
