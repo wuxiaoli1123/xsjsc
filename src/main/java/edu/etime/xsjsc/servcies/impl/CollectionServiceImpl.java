@@ -1,5 +1,6 @@
 package edu.etime.xsjsc.servcies.impl;
 
+import edu.etime.xsjsc.dao.CollectionMapper;
 import edu.etime.xsjsc.pojo.Collection;
 import edu.etime.xsjsc.servcies.interfaces.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,42 +17,42 @@ import java.util.List;
 public class CollectionServiceImpl implements CollectionService {
 
     @Autowired
-    private CollectionService collectionService;
+    private CollectionMapper collectionMapper;
 
 
 
     @Override
     public int deleteByPrimaryKey(String id) {
-        return collectionService.deleteByPrimaryKey(id);
+        return collectionMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public int insert(Collection record) {
-        return collectionService.insert(record);
+        return collectionMapper.insert(record);
     }
 
     @Override
     public int insertSelective(Collection record) {
-        return collectionService.insertSelective(record);
+        return collectionMapper.insertSelective(record);
     }
 
     @Override
     public Collection selectByPrimaryKey(String id) {
-        return collectionService.selectByPrimaryKey(id);
+        return collectionMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public int updateByPrimaryKeySelective(Collection record) {
-        return collectionService.updateByPrimaryKeySelective(record);
+        return collectionMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
     public int updateByPrimaryKey(Collection record) {
-        return collectionService.updateByPrimaryKey(record);
+        return collectionMapper.updateByPrimaryKey(record);
     }
 
     @Override
     public List<Collection> selectByOpenid(String openid) {
-        return collectionService.selectByOpenid(openid);
+        return collectionMapper.selectByOpenid(openid);
     }
 }
