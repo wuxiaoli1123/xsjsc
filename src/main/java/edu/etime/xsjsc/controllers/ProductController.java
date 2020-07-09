@@ -130,7 +130,7 @@ public class ProductController {
 	 */
 	@RequestMapping("delete")
 	@ResponseBody
-	public Result updateProduct(String id){
+	public Result deleteProduct(String id){
 		Result result = new Result();
 
 		int rs1= service.deleteImgByPid(id);
