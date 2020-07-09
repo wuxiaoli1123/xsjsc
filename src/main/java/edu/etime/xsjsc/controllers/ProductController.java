@@ -38,7 +38,7 @@ public class ProductController {
 	private ProductService service;
 
 /**
-	 * 进入到增加页面
+	 * 查询所有可用的商品类型列表
 	 * @return
 	 */
 
@@ -78,11 +78,6 @@ public class ProductController {
 		}
 		p.setId(UUID.randomUUID().toString());
 
-		//处理typeid
-//		String[] str = p.getTypeid().split(",");
-//		p.setTypeid(str[0]);
-//		p.setTypename(str[1]);
-
 		Result result =new Result();
 		//创建对应的图片实例并插入数据库
 		ProductImgs pimgs = new ProductImgs();
@@ -107,16 +102,50 @@ public class ProductController {
 		return result;
 	}
 
-/**
-	 * 查询商品列表
+	/**
+	 * 修改商品
 	 * @param p
-	 * @param model
 	 * @return
 	 */
+	@RequestMapping("/edit")
+	@ResponseBody
+	public Result updateProduct(@RequestBody Product p){
+		Result result = new Result();
+		int rs = service.updateProduct(p);
+		if (rs > 0) {
+			result.setState(true).setMsg("修改成功！");
+		}else{
+			result.setState(false).setMsg("修改失败！");
+		}
+		return result;
+	}
+	/**
+	 * 删除商品
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("delete")
+	@ResponseBody
+	public Result updateProduct(String id){
+		Result result = new Result();
 
+		int rs = service.deleteProduct(id);
+		if (rs > 0) {
+			result.setState(true).setMsg("修改成功！");
+		}else{
+			result.setState(false).setMsg("修改失败！");
+		}
+		return result;
+	}
+
+	/**
+	 * 查询商品列表
+	 * @param p
+	 * @return
+	 */
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String list(Product p,Model model){
+	public String list(@RequestBody Product p){
 		//1、初始化商品类型下拉列表
 		GoodsType type = new GoodsType();
 		type.setState(1);
@@ -143,9 +172,10 @@ public class ProductController {
 	 * @return
 	 */
 
-	@RequestMapping(value="/imgs/",produces = "text/html;charset=UTF-8")
+	@RequestMapping(value="/imgs",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String initImg(String pid){
+
 		//1、根据商品id查询出商品的详细信息（显示）
 		Product p = service.selectProductById(pid);
 		//2、查询商品的图片列表
@@ -156,7 +186,7 @@ public class ProductController {
 		//将上面的内容放入到map中，转换成json串返回
 		Map<String,Object> map = new HashMap<String,Object>();
 
-		map.put("product",p);
+		map.put("production",p);
 		map.put("list",list);
 		map.put("fileserver",fileserver);
 
@@ -205,13 +235,13 @@ public class ProductController {
 		}
 		int rtn = 0;
 		//增加
-		if(img.getImgid().equals("")){
-			img.setImgid(UUID.randomUUID().toString());
-			rtn = service.insertImg(img);
-		}else{
+//		if(img.getImgid().equals("")){
+//			img.setImgid(UUID.randomUUID().toString());
+//			rtn = service.insertImg(img);
+//		}else{
 			//修改
-			rtn = service.updateImg(img);
-		}
+		rtn = service.updateImg(img);
+//		}
 		if(rtn>0){
 			result.setState(true).setMsg("保存图片成功！");
 		}else{

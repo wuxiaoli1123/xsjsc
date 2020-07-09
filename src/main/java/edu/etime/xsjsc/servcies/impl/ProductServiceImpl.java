@@ -32,10 +32,20 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> selectProductList(Product p) {
 		//处理name属性，如果有，那么需要加上%进行模糊查询
-		if(p!=null && p.getName()!=null && !p.getName().equals("")){
-			p.setName("%"+p.getName()+"%");
+		if(p!=null && p.getName()!=null && !p.getName().equals("")) {
+			p.setName("%" + p.getName() + "%");
 		}
 		return mapper.selectProductList(p);
+	}
+
+	@Override
+	public int updateProduct(Product p) {
+		return mapper.updateByPrimaryKeySelective(p);
+	}
+
+	@Override
+	public int deleteProduct(String id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 
 	@Override

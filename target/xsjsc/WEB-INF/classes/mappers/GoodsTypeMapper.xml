@@ -7,12 +7,6 @@
     <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select
-      id, name, state
-    from goodstype
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
   <!-- 查询商品类型列表 -->
   <select id="selectGoodsTypeList" resultMap="BaseResultMap" parameterType="edu.etime.xsjsc.pojo.GoodsType" >
     select 

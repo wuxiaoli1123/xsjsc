@@ -25,6 +25,19 @@ public interface ProductService {
 	 */
 	List<Product> selectProductList(Product p);
 	/**
+	 * 修改商品信息
+	 * @param p
+	 * @return
+	 */
+	int updateProduct(Product p);
+	/**
+	 * 删除商品
+	 * @param id
+	 * @return
+	 */
+	int deleteProduct(String id);
+
+	/**
 	 * 根据商品id查询一条商品的详细信息
 	 * @param pid
 	 * @return
