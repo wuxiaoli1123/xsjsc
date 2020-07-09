@@ -25,6 +25,8 @@ public interface OrdersMapper {
     int updateIspay(String id);
 
     int updateRecive(String id);
+    //订单显示
+    List<Orders> selectOrders(Orders o);
 
     List<ProductDisplay> selectProductByYM(@Param("productid") String productid, @Param("ymtime") String ymtime);
 
