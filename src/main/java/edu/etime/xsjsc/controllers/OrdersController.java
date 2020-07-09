@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +36,9 @@ public class OrdersController {
     public Result insertSelective(@RequestBody Orders record){
         Result result = new Result();
         record.setId(UUID.randomUUID().toString());
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        record.setOrdertime(now);
         int rtn = ordersService.insertSelective(record);
         if (rtn > 0) {
             result.setState(true).setMsg("订单提交成功！");
@@ -51,7 +56,7 @@ public class OrdersController {
      * @return
      */
     @RequestMapping("/del")
-    public Result deleteByPrimaryKey(@RequestBody String id){
+    public Result deleteByPrimaryKey(String id){
         Result result = new Result();
         int rtn = ordersService.deleteByPrimaryKey(id);
         if (rtn > 0) {
@@ -80,6 +85,7 @@ public class OrdersController {
     @RequestMapping("/edit")
     public Result edit(@RequestBody Orders record) {
         int rtn = ordersService.updateByPrimaryKeySelective(record);
+        System.out.println(record);
         Result result =new Result();
         // 处理结果
         if (rtn > 0) {

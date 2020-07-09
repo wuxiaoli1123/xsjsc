@@ -74,4 +74,11 @@ public interface ProductService {
 	 * @return
 	 */
 	int deleteImg(String id);
+	/**
+	 * 删除商品的所有图片
+	 * @param id
+	 * @return
+	 */
+	int deleteImgByPid(String id);
+
 }

@@ -27,5 +27,9 @@ public interface ProductMapper {
      * 修改商品图片的url
      */
     int updateImgUrlByPrimaryKey(Product p);
+    /**
+     * 删除商品的所有图片
+     */
+    int deleteImgByPid(String id);
 
 }

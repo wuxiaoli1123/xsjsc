@@ -155,4 +155,25 @@ public class Orders {
     public void setOrdertime(Date ordertime) {
         this.ordertime = ordertime;
     }
+
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "id='" + id + '\'' +
+                ", openid='" + openid + '\'' +
+                ", productid='" + productid + '\'' +
+                ", productname='" + productname + '\'' +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", number=" + number +
+                ", totle=" + totle +
+                ", ispay=" + ispay +
+                ", invoice='" + invoice + '\'' +
+                ", receive=" + receive +
+                ", state=" + state +
+                ", address='" + address + '\'' +
+                ", addrid='" + addrid + '\'' +
+                ", ordertime=" + ordertime +
+                '}';
+    }
 }

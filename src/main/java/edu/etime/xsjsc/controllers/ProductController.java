@@ -1,9 +1,7 @@
 package edu.etime.xsjsc.controllers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import edu.etime.xsjsc.pojo.Result;
@@ -77,6 +75,9 @@ public class ProductController {
 			}
 		}
 		p.setId(UUID.randomUUID().toString());
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		p.setPublishtime(now);
 
 		Result result =new Result();
 		//创建对应的图片实例并插入数据库
@@ -132,7 +133,15 @@ public class ProductController {
 	public Result updateProduct(String id){
 		Result result = new Result();
 
+		int rs1= service.deleteImgByPid(id);
+
+		if(rs1<0){
+			result.setState(false).setMsg("修改失败！");
+			return result;
+		}
+
 		int rs = service.deleteProduct(id);
+
 		if (rs > 0) {
 			result.setState(true).setMsg("修改成功！");
 		}else{
@@ -238,14 +247,7 @@ public class ProductController {
 			}
 		}
 		int rtn = 0;
-		//增加
-//		if(img.getImgid().equals("")){
-//			img.setImgid(UUID.randomUUID().toString());
-//			rtn = service.insertImg(img);
-//		}else{
-			//修改
 		rtn = service.updateImg(img);
-//		}
 		if(rtn>0){
 			result.setState(true);
 			result.setMsg("保存图片成功！");

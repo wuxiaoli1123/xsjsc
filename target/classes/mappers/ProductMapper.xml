@@ -59,6 +59,10 @@
     delete from product
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteImgByPid" parameterType="java.lang.String" >
+    delete from productimgs
+    where productid = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="edu.etime.xsjsc.pojo.Product" >
     insert into product (id, name, price,
       title, stock, number,
