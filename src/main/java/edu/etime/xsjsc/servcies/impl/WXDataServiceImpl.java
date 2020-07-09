@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.etime.xsjsc.dao.*;
+import edu.etime.xsjsc.dto.ShowOrders;
+import edu.etime.xsjsc.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.etime.xsjsc.dto.GoodsTypeProduct;
 import edu.etime.xsjsc.dto.ProductDetailDto;
-import edu.etime.xsjsc.pojo.CusAddress;
-import edu.etime.xsjsc.pojo.Customer;
-import edu.etime.xsjsc.pojo.GoodsType;
-import edu.etime.xsjsc.pojo.Product;
-import edu.etime.xsjsc.pojo.ProductImgs;
 import edu.etime.xsjsc.servcies.interfaces.WXDataService;
 
 /**
@@ -124,5 +121,18 @@ public class WXDataServiceImpl implements WXDataService {
 		return ordersMapper.updateRecive(id);
 	}
 
+	@Override
+	public List<ShowOrders> selectOrders(Orders o) {
+		List<Orders> list = ordersMapper.selectOrders(o);
+		List<ShowOrders> so = new ArrayList<>();
+		for(int i = 0;i<list.size();i++){
+			List<ProductImgs> imgs = imgmapper.selectByPid(list.get(i).getProductid());
+			ShowOrders showOrders = new ShowOrders();
+			showOrders.setOrders(list.get(i));
+			showOrders.setImgs(imgs);
+			so.add(showOrders);
+		}
+		return so;
+	}
 
 }

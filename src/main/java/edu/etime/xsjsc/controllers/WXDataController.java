@@ -3,6 +3,8 @@ package edu.etime.xsjsc.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import edu.etime.xsjsc.dto.ShowOrders;
+import edu.etime.xsjsc.pojo.Orders;
 import edu.etime.xsjsc.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -90,9 +92,16 @@ public class WXDataController {
 	 */
 	@RequestMapping(value="/address/add",method=RequestMethod.POST)
 	@ResponseBody
-	public int insertCusAddress(@RequestBody CusAddress address){
+	public Result insertCusAddress(@RequestBody CusAddress address){
+		Result result = new Result();
 		address.setId(UUID.randomUUID().toString());
-		return service.insertCusAddress(address);
+		int rtn = service.insertCusAddress(address);
+		if (rtn > 0) {
+			result.setState(true).setMsg("地址添加成功！");
+		} else {
+			result.setState(false).setMsg("地址添加失败，请重新操作！");
+		}
+		return result;
 	}
 
 	/**
@@ -102,11 +111,22 @@ public class WXDataController {
 	 */
 	@RequestMapping(value="/address/update",method=RequestMethod.POST)
 	@ResponseBody
-	public int updateCusAddress(@RequestBody CusAddress address){
-		return service.updateByPrimaryKeySelective(address);
+	public Result updateCusAddress(@RequestBody CusAddress address){
+		Result result = new Result();
+		int rtn = service.updateByPrimaryKeySelective(address);
+		if (rtn > 0) {
+			result.setState(true).setMsg("地址修改成功！");
+		} else {
+			result.setState(false).setMsg("地址修改失败，请重新操作！");
+		}
+		return result;
 	}
 
-
+	/**
+	 * 付款
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/ispay")
 	public Result updateIspay(@RequestBody String id){
 		Result result = new Result();
@@ -119,9 +139,13 @@ public class WXDataController {
 		return result;
 	}
 
-
-	@RequestMapping("/recive")
-	public Result updateRecive(@RequestBody String id){
+	/**
+	 * 收货
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/receive")
+	public Result updateReceive(@RequestBody String id){
 		Result result = new Result();
 		int rtn = service.updateRecive(id);
 		if (rtn > 0) {
@@ -132,4 +156,24 @@ public class WXDataController {
 		return result;
 	}
 
+	/**
+	 * 订单显示
+	 * @param cmd
+	 * @return
+	 */
+	@RequestMapping("/order/{cmd}")
+	@ResponseBody
+	public List<ShowOrders> selectOrders(@PathVariable("cmd")String cmd){
+		 Orders o = new Orders();
+		 o.setState(1);
+		if(cmd.equals("ispay")){
+			o.setIspay(0);
+		}else if(cmd.equals("invoice")){
+			o.setInvoice(null);
+		}else if(cmd.equals("receive")){
+			o.setReceive(0);
+		}
+		List<ShowOrders> list = service.selectOrders(o);
+		return list;
+	}
 }

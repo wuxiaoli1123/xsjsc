@@ -4,8 +4,10 @@ import java.util.List;
 
 import edu.etime.xsjsc.dto.GoodsTypeProduct;
 import edu.etime.xsjsc.dto.ProductDetailDto;
+import edu.etime.xsjsc.dto.ShowOrders;
 import edu.etime.xsjsc.pojo.CusAddress;
 import edu.etime.xsjsc.pojo.Customer;
+import edu.etime.xsjsc.pojo.Orders;
 import edu.etime.xsjsc.pojo.Product;
 
 /**
@@ -78,4 +80,10 @@ public interface WXDataService {
 	 * @return
 	 */
 	int updateRecive(String id);
+	/**
+	 * 订单显示
+	 * @param o
+	 * @return
+	 */
+	List<ShowOrders> selectOrders(Orders o);
 }

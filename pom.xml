@@ -135,7 +135,6 @@
 			<version>1.29-SNAPSHOT</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>

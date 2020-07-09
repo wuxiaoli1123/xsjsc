@@ -229,4 +229,22 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
+  <select id="selectOrders" resultMap="BaseResultMap" parameterType="edu.etime.xsjsc.pojo.Orders" >
+    select *
+    from orders
+    <where>
+      <if test="ispay!=null and ispay!='-1'">
+        and ispay=#{ispay}
+      </if>
+      <if test="invoice = null">
+        and invoice is #{invoice}
+      </if>
+      <if test="receive!=null and receive!='-1'">
+        and receive=#{receive}
+      </if>
+      <if test="state!=null and state!=-1">
+        and state = #{state}
+      </if>
+    </where>
+  </select>
 </mapper>
