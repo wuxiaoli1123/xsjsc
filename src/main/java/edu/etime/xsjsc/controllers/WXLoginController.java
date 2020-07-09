@@ -69,7 +69,7 @@ public class WXLoginController {
 	 * @return
 	 */
 	private String getopenid(String code) {
-		String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=wx37c74496b464fa6a&secret=93c313f2aff59eac6a9e393b9bf6dbed&js_code="
+		String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=wxa27a2e760a9c146a&secret=28d66e0deda72c06fb8856977a166f06&js_code="
 				+ code + "&grant_type=authorization_code";
 		String rtnvalue = GET(WX_URL);//获取到的是一个json字符串。
 		//解析json字符串，得到openid

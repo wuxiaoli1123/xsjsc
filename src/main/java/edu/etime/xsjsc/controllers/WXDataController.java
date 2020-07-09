@@ -3,7 +3,10 @@ package edu.etime.xsjsc.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import edu.etime.xsjsc.dto.ShowOrders;
+import edu.etime.xsjsc.pojo.Orders;
 import edu.etime.xsjsc.pojo.Result;
+import edu.etime.xsjsc.servcies.interfaces.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,9 @@ public class WXDataController {
 
 	@Autowired
 	private WXDataService service;
+
+	@Autowired
+	private OrdersService ordersService;
 	
 	/**
 	 * 首页商品列表显示
@@ -90,23 +96,43 @@ public class WXDataController {
 	 */
 	@RequestMapping(value="/address/add",method=RequestMethod.POST)
 	@ResponseBody
-	public int insertCusAddress(@RequestBody CusAddress address){
+	public Result insertCusAddress(@RequestBody CusAddress address){
+		Result result = new Result();
 		address.setId(UUID.randomUUID().toString());
-		return service.insertCusAddress(address);
+		int rtn = service.insertCusAddress(address);
+		if (rtn > 0) {
+			result.setState(true).setMsg("地址添加成功！");
+		} else {
+			result.setState(false).setMsg("地址添加失败，请重新操作！");
+		}
+		return result;
 	}
 
 	/**
 	 * 修改收货地址
 	 * @param address
 	 * @return
+	 * syq
 	 */
 	@RequestMapping(value="/address/update",method=RequestMethod.POST)
 	@ResponseBody
-	public int updateCusAddress(@RequestBody CusAddress address){
-		return service.updateByPrimaryKeySelective(address);
+	public Result updateCusAddress(@RequestBody CusAddress address){
+		Result result = new Result();
+		int rtn = service.updateByPrimaryKeySelective(address);
+		if (rtn > 0) {
+			result.setState(true).setMsg("地址修改成功！");
+		} else {
+			result.setState(false).setMsg("地址修改失败，请重新操作！");
+		}
+		return result;
 	}
 
-
+	/**
+	 * 付款
+	 * @param id
+	 * @return
+	 * syq
+	 */
 	@RequestMapping("/ispay")
 	public Result updateIspay(@RequestBody String id){
 		Result result = new Result();
@@ -119,15 +145,78 @@ public class WXDataController {
 		return result;
 	}
 
-
-	@RequestMapping("/recive")
-	public Result updateRecive(@RequestBody String id){
+	/**
+	 * 收货
+	 * @param id
+	 * @return
+	 * syq
+	 */
+	@RequestMapping("/receive")
+	public Result updateReceive(@RequestBody String id){
 		Result result = new Result();
 		int rtn = service.updateRecive(id);
 		if (rtn > 0) {
 			result.setState(true).setMsg("收货成功！");
 		} else {
 			result.setState(false).setMsg("收货失败，请重新操作！");
+		}
+		return result;
+	}
+
+	/**
+	 * 订单显示
+	 * @param cmd
+	 * @return
+	 * syq
+	 */
+	@RequestMapping("/order/{cmd}")
+	@ResponseBody
+	public List<ShowOrders> selectOrders(@PathVariable("cmd")String cmd){
+		 Orders o = new Orders();
+		 o.setState(1);
+		if(cmd.equals("ispay")){
+			o.setIspay(0);
+		}else if(cmd.equals("invoice")){
+			o.setInvoice(null);
+		}else if(cmd.equals("receive")){
+			o.setReceive(0);
+		}
+		List<ShowOrders> list = service.selectOrders(o);
+		return list;
+	}
+	/**
+	 * 订单删除
+	 * @param id
+	 * @return
+	 *  syq
+	 */
+	@PostMapping("/order/del")
+	@ResponseBody
+	public Result deleteOrderById(String id){
+		Result result = new Result();
+		int rtn = ordersService.deleteByPrimaryKey(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("删除订单成功！");
+		} else {
+			result.setState(false).setMsg("删除订单失败，请重新操作！");
+		}
+		return result;
+	}
+	/**
+	 * 地址删除
+	 * @param id
+	 * @return
+	 * syq
+	 */
+	@PostMapping("/address/del")
+	@ResponseBody
+	public Result deleteAddressById(String id){
+		Result result = new Result();
+		int rtn = service.deleteByPrimaryKey(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("删除地址成功！");
+		} else {
+			result.setState(false).setMsg("删除地址失败，请重新操作！");
 		}
 		return result;
 	}

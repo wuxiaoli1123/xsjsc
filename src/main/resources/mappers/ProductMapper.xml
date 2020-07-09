@@ -54,17 +54,17 @@
    		</if>
    	</where>
   </select>
-  
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from product
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="edu.etime.xsjsc.pojo.Product" >
-    insert into product (id, name, price, 
-      title, stock, number, 
-      description, publishtime, recommend, 
-      oldest, hot, fields1, 
-      fields2, fields3, typeid, 
+    insert into product (id, name, price,
+      title, stock, number,
+      description, publishtime, recommend,
+      oldest, hot, fields1,
+      fields2, fields3, typeid,
       typename)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
       #{title,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 

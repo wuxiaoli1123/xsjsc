@@ -1,5 +1,9 @@
 package edu.etime.xsjsc.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class Orders {
     private String id;
 
@@ -28,6 +32,9 @@ public class Orders {
     private String address;
 
     private String addrid;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date ordertime;
 
     public String getId() {
         return id;
@@ -139,5 +146,13 @@ public class Orders {
 
     public void setAddrid(String addrid) {
         this.addrid = addrid == null ? null : addrid.trim();
+    }
+
+    public Date getOrdertime() {
+        return ordertime;
+    }
+
+    public void setOrdertime(Date ordertime) {
+        this.ordertime = ordertime;
     }
 }

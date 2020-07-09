@@ -89,15 +89,18 @@ public class ProductController {
 
 		//如果插入不成功则返回错误信息，不再把新增产品插入表中
 		if(rtn1 < 0 ){
-			result.setState(false).setMsg("建立图片索引时失败！");
+			result.setState(false);
+			result.setMsg("建立图片索引时失败！");;
 		}
 
 		int rtn = service.insertProduct(p);
 
 		if (rtn > 0) {
-			result.setState(true).setMsg("增加商品成功！");
+			result.setState(true);
+			result.setMsg("增加商品成功！");
 		} else {
-			result.setState(false).setMsg("增加商品失败！");
+			result.setState(false);
+			result.setMsg("增加商品失败！");
 		}
 		return result;
 	}
@@ -229,7 +232,8 @@ public class ProductController {
 			int rs = service.updateProductImg(product);
 
 			if (rs < 0) {
-				result.setState(false).setMsg("保存图片失败！");
+				result.setState(false);
+				result.setMsg("保存图片失败！");
 				return result;
 			}
 		}
@@ -243,9 +247,11 @@ public class ProductController {
 		rtn = service.updateImg(img);
 //		}
 		if(rtn>0){
-			result.setState(true).setMsg("保存图片成功！");
+			result.setState(true);
+			result.setMsg("保存图片成功！");
 		}else{
-			result.setState(false).setMsg("保存图片失败！");
+			result.setState(false);
+			result.setMsg("保存图片失败！");
 		}
 		return result;
 	}
@@ -263,9 +269,11 @@ public class ProductController {
 
 		int rs = service.deleteImg(id);
 		if (rs > 0) {
-			result.setState(true).setMsg("删除图片成功！");
+			result.setState(true);
+			result.setMsg("删除图片成功！");
 		}else{
-			result.setState(false).setMsg("删除图片失败！");
+			result.setState(false);
+			result.setMsg("删除图片失败！");
 		}
 		return result;
 	}

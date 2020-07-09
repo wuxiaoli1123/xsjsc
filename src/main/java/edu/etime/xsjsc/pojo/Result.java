@@ -12,4 +12,20 @@ import lombok.experimental.Accessors;
 public class Result {
     private Boolean state = true;
     private String msg;
+
+   /* public Boolean getState() {
+        return state;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }*/
 }
