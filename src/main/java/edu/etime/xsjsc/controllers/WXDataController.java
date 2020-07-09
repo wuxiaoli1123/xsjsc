@@ -6,6 +6,7 @@ import java.util.UUID;
 import edu.etime.xsjsc.dto.ShowOrders;
 import edu.etime.xsjsc.pojo.Orders;
 import edu.etime.xsjsc.pojo.Result;
+import edu.etime.xsjsc.servcies.interfaces.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ public class WXDataController {
 
 	@Autowired
 	private WXDataService service;
+
+	@Autowired
+	private OrdersService ordersService;
 	
 	/**
 	 * 首页商品列表显示
@@ -108,6 +112,7 @@ public class WXDataController {
 	 * 修改收货地址
 	 * @param address
 	 * @return
+	 * syq
 	 */
 	@RequestMapping(value="/address/update",method=RequestMethod.POST)
 	@ResponseBody
@@ -126,6 +131,7 @@ public class WXDataController {
 	 * 付款
 	 * @param id
 	 * @return
+	 * syq
 	 */
 	@RequestMapping("/ispay")
 	public Result updateIspay(@RequestBody String id){
@@ -143,6 +149,7 @@ public class WXDataController {
 	 * 收货
 	 * @param id
 	 * @return
+	 * syq
 	 */
 	@RequestMapping("/receive")
 	public Result updateReceive(@RequestBody String id){
@@ -160,6 +167,7 @@ public class WXDataController {
 	 * 订单显示
 	 * @param cmd
 	 * @return
+	 * syq
 	 */
 	@RequestMapping("/order/{cmd}")
 	@ResponseBody
@@ -176,4 +184,41 @@ public class WXDataController {
 		List<ShowOrders> list = service.selectOrders(o);
 		return list;
 	}
+	/**
+	 * 订单删除
+	 * @param id
+	 * @return
+	 *  syq
+	 */
+	@PostMapping("/order/del")
+	@ResponseBody
+	public Result deleteOrderById(String id){
+		Result result = new Result();
+		int rtn = ordersService.deleteByPrimaryKey(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("删除订单成功！");
+		} else {
+			result.setState(false).setMsg("删除订单失败，请重新操作！");
+		}
+		return result;
+	}
+	/**
+	 * 地址删除
+	 * @param id
+	 * @return
+	 * syq
+	 */
+	@PostMapping("/address/del")
+	@ResponseBody
+	public Result deleteAddressById(String id){
+		Result result = new Result();
+		int rtn = service.deleteByPrimaryKey(id);
+		if (rtn > 0) {
+			result.setState(true).setMsg("删除地址成功！");
+		} else {
+			result.setState(false).setMsg("删除地址失败，请重新操作！");
+		}
+		return result;
+	}
+
 }

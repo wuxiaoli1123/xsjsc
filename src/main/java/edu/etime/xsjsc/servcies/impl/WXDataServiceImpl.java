@@ -135,4 +135,9 @@ public class WXDataServiceImpl implements WXDataService {
 		return so;
 	}
 
+	@Override
+	public int deleteByPrimaryKey(String id) {
+		return addrmapper.deleteByPrimaryKey(id);
+	}
+
 }
