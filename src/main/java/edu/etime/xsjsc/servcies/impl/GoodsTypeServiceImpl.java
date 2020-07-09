@@ -30,14 +30,15 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 		return mapper.selectGoodsTypeList(type);
 	}
 
-	@Override
-	public GoodsType selectGoodsTypeById(String id) {
-		return mapper.selectByPrimaryKey(id);
-	}
 
 	@Override
 	public int updateGoodsType(GoodsType type) {
 		return mapper.updateByPrimaryKeySelective(type);
+	}
+
+	@Override
+	public int deleteGoodsType(String id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 
 }

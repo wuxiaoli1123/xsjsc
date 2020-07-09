@@ -24,15 +24,17 @@ public interface GoodsTypeService {
 	 */
 	List<GoodsType> selectGoodsTypeList(GoodsType type);
 	/**
-	 * 根据id查询一条商品类型的详细信息
-	 * @param id
-	 * @return
-	 */
-	GoodsType selectGoodsTypeById(String id);
-	/**
 	 * 修改商品类型
 	 * @param type
 	 * @return
 	 */
 	int updateGoodsType(GoodsType type);
+	/**
+	 * 删除商品类型
+	 * @param type
+	 * @return
+	 */
+	int deleteGoodsType(String id);
+
+
 }

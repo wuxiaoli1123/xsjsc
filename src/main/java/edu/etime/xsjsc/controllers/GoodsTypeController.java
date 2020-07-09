@@ -6,10 +6,7 @@ import java.util.UUID;
 import edu.etime.xsjsc.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.etime.xsjsc.pojo.GoodsType;
 import edu.etime.xsjsc.servcies.interfaces.GoodsTypeService;
@@ -59,18 +56,6 @@ public class GoodsTypeController {
 		return list;
 	}
 
-	/**
-	 * 初始化修改页面
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/toedit")
-    @ResponseBody
-	public GoodsType toedit(String id) {
-		GoodsType type = service.selectGoodsTypeById(id);
-		return type;
-	}
 
 	/**
 	 * 修改商品类型
@@ -88,6 +73,25 @@ public class GoodsTypeController {
             result.setState(true).setMsg("商品类型修改成功！");
 		} else {
             result.setState(false).setMsg("商品类型修改失败！");
+		}
+		return result;
+	}
+	/**
+	 * 删除商品类型
+	 *
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Result delete(String id) {
+		int rtn = service.deleteGoodsType(id);
+		Result result = new Result();
+		// 处理结果
+		if (rtn > 0) {
+			result.setState(true).setMsg("删除成功！");
+		} else {
+			result.setState(false).setMsg("删除失败！");
 		}
 		return result;
 	}

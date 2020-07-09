@@ -11,8 +11,6 @@ public interface GoodsTypeMapper {
 
     int insertSelective(GoodsType record);
 
-    GoodsType selectByPrimaryKey(String id);
-
     int updateByPrimaryKeySelective(GoodsType record);
 
     int updateByPrimaryKey(GoodsType record);

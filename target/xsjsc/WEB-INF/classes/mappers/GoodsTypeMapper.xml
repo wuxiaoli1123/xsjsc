@@ -75,4 +75,8 @@
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from goodstype where id=#{id,jdbcType=VARCHAR}
+  </delete>
+
 </mapper>
