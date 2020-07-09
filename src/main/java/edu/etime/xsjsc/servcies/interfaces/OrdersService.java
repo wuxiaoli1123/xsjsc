@@ -1,6 +1,8 @@
 package edu.etime.xsjsc.servcies.interfaces;
 
 import edu.etime.xsjsc.pojo.Orders;
+import edu.etime.xsjsc.pojo.ProductDisplay;
+import edu.etime.xsjsc.pojo.UserDisplay;
 
 import java.util.List;
 
@@ -36,4 +38,36 @@ public interface OrdersService {
      * @return
      */
     List<Orders> selectOrdersList(Orders record);
+
+    /**
+     * 根据商品id和年月，返回商品的销量
+     * @param id
+     * @param ymtime
+     * @return
+     */
+    List<ProductDisplay> selectProductByYM(String id,String ymtime);
+
+    /**
+     * 根据用户id，查询该用户的购买行为喜好
+     * @author 吴小莉
+     * @param openid
+     * @return
+     */
+    List<UserDisplay> selectActionByOpenid(String openid);
+
+    /**
+     * 根据某商品id，查询该商品订单取消的数量
+     * @author 吴小莉
+     * @param productid
+     * @return
+     */
+    int selectState2Num(String productid);
+
+    /**
+     * 根据某商品id，查询该商品订单成功的数量
+     * @author 吴小莉
+     * @param productid
+     * @return
+     */
+    int selectState3Num(String productid);
 }

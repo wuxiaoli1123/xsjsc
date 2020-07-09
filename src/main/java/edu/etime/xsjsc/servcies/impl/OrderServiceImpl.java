@@ -2,6 +2,8 @@ package edu.etime.xsjsc.servcies.impl;
 
 import edu.etime.xsjsc.dao.OrdersMapper;
 import edu.etime.xsjsc.pojo.Orders;
+import edu.etime.xsjsc.pojo.ProductDisplay;
+import edu.etime.xsjsc.pojo.UserDisplay;
 import edu.etime.xsjsc.servcies.interfaces.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,4 +42,23 @@ public class OrderServiceImpl implements OrdersService {
 		return mapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public List<ProductDisplay> selectProductByYM(String id, String ymtime) {
+		return mapper.selectProductByYM(id, ymtime);
+	}
+
+	@Override
+	public List<UserDisplay> selectActionByOpenid(String openid) {
+		return mapper.selectActionByOpenid(openid);
+	}
+
+	@Override
+	public int selectState2Num(String productid) {
+		return mapper.selectState2Num(productid);
+	}
+
+	@Override
+	public int selectState3Num(String productid) {
+		return mapper.selectState3Num(productid);
+	}
 }
